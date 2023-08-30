@@ -1,0 +1,80 @@
+= Broken links
+Álvaro López Medina <alopezme@redhat.com>
+v1.0, 2023-08
+// Metadata
+:description: This repo contains some code to run a python script to check broken links of a website
+:keywords: broken, links, python, http, error
+// Create TOC wherever needed
+:toc: macro
+:sectanchors:
+:sectnumlevels: 2
+:sectnums: 
+:source-highlighter: pygments
+:imagesdir: docs/images
+// Start: Enable admonition icons
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+// Icons for GitHub
+:yes: :heavy_check_mark:
+:no: :x:
+endif::[]
+ifndef::env-github[]
+:icons: font
+// Icons not for GitHub
+:yes: icon:check[]
+:no: icon:times[]
+endif::[]
+// End: Enable admonition icons
+
+
+== Introduction
+
+Are broken links damaging your website's rankings and usability? There's no getting around it - error 404 pages are bad for business.
+
+
+
+=== What is BeautifulSoup?
+
+First of all, let us understand what Beautiful Soup is: It is a library written in Python. It is used to extract data out of HTML and XML files. Beautiful Soup works well if a company or website owner wants to get data quickly and saves programmers a lot of time.
+
+
+== Run it! Locally
+
+Install the required Python dependencies using pip:
+
+[source, bash]
+----
+pip install -r app/requirements.txt
+----
+
+To run the Python app with Prometheus metrics, use the following command:
+
+[source, bash]
+----
+python app/broken-links.py https://redhat.es
+----
+
+This is great, it will provide an HTML file with the output in the `results` folder.
+
+== Run it! Linkchecker
+
+LinkChecker is a free, GPL-licensed website validator. LinkChecker checks links in web documents or full websites. It runs on Python 3 systems, requiring Python 3.8 or later.
+
+[source, bash]
+----
+podman run --rm -it -u $(id -u):$(id -g) ghcr.io/linkchecker/linkchecker:latest --verbose -ohtml https://redhat.com | tee reports/redhat-com-output.html
+----
+
+Access the GitHub documentation to check the usage with Docker / Podman: https://github.com/linkchecker/linkchecker#docker-usage
+
+
+== Acknowledgements
+
+* The original script comes from one of `Pratapsharma` blogs: https://pratapsharma.io/script-to-check-broken-links. However, I had to tweak some stuff to adapt it to my needs. 
+* Currently, my recommendation is to just play with `linkchecker`, which is documented here: https://linkchecker.github.io/linkchecker/install.html#setup-with-pip-x
+
+
